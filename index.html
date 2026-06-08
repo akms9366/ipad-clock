@@ -10,35 +10,26 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
       --bg: #0a0a0f;
-      --bg2: #12121a;
       --accent: #00d4ff;
       --accent2: #0099cc;
-      --accent-dim: rgba(0, 212, 255, 0.15);
-      --accent-glow: rgba(0, 212, 255, 0.4);
+      --accent-dim: rgba(0,212,255,0.15);
+      --accent-glow: rgba(0,212,255,0.4);
       --text: #e8f4f8;
-      --text-dim: rgba(232, 244, 248, 0.5);
+      --text-dim: rgba(232,244,248,0.45);
       --danger: #ff4466;
-      --danger-dim: rgba(255, 68, 102, 0.15);
-      --danger-glow: rgba(255, 68, 102, 0.5);
+      --danger-dim: rgba(255,68,102,0.15);
+      --danger-glow: rgba(255,68,102,0.5);
       --warn: #ffaa00;
-      --warn-glow: rgba(255, 170, 0, 0.5);
-      --panel: rgba(255, 255, 255, 0.05);
-      --panel-border: rgba(0, 212, 255, 0.2);
+      --warn-glow: rgba(255,170,0,0.5);
+      --panel: rgba(255,255,255,0.05);
+      --panel-border: rgba(0,212,255,0.18);
     }
 
-    html, body {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-    }
+    html, body { width: 100%; height: 100%; overflow: hidden; }
 
     body {
       background: var(--bg);
@@ -49,7 +40,6 @@
       align-items: center;
       justify-content: center;
       min-height: 100dvh;
-      position: relative;
     }
 
     body::before {
@@ -57,8 +47,8 @@
       position: fixed;
       inset: 0;
       background-image:
-        linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+        linear-gradient(rgba(0,212,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,255,0.025) 1px, transparent 1px);
       background-size: 60px 60px;
       pointer-events: none;
       z-index: 0;
@@ -68,14 +58,15 @@
       position: relative;
       z-index: 1;
       width: 100%;
-      max-width: 900px;
-      padding: 40px 32px;
+      max-width: 960px;
+      padding: 32px 40px 28px;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 0;
     }
 
+    /* ══ CLOCK ══ */
     .clock-section {
       text-align: center;
       width: 100%;
@@ -84,243 +75,210 @@
     .time-display {
       font-family: 'Orbitron', monospace;
       font-weight: 900;
-      font-size: clamp(80px, 20vw, 180px);
-      letter-spacing: 0.05em;
+      font-size: clamp(64px, 13vw, 148px);
+      letter-spacing: 0.04em;
       line-height: 1;
       color: var(--accent);
       text-shadow:
-        0 0 20px var(--accent-glow),
-        0 0 60px var(--accent-glow),
-        0 0 120px rgba(0, 212, 255, 0.2);
-      user-select: none;
-      transition: color 0.3s, text-shadow 0.3s;
-    }
-
-    .time-display.countdown-urgent {
-      color: var(--danger);
-      text-shadow:
-        0 0 20px var(--danger-glow),
-        0 0 60px var(--danger-glow),
-        0 0 120px rgba(255, 68, 102, 0.2);
-      animation: urgentPulse 1s ease-in-out infinite;
-    }
-
-    .time-display.countdown-warn {
-      color: var(--warn);
-      text-shadow:
-        0 0 20px var(--warn-glow),
-        0 0 60px var(--warn-glow);
-    }
-
-    @keyframes urgentPulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.6; }
-    }
-
-    .seconds-display {
-      font-family: 'Orbitron', monospace;
-      font-weight: 400;
-      font-size: clamp(28px, 6vw, 56px);
-      color: rgba(0, 212, 255, 0.65);
-      letter-spacing: 0.1em;
-      margin-top: 4px;
+        0 0 24px var(--accent-glow),
+        0 0 70px var(--accent-glow),
+        0 0 130px rgba(0,212,255,0.18);
+      white-space: nowrap;
       user-select: none;
     }
 
     .date-display {
-      font-size: clamp(18px, 3.5vw, 28px);
+      font-size: clamp(16px, 3vw, 26px);
       font-weight: 300;
       color: var(--text-dim);
-      letter-spacing: 0.12em;
-      margin-top: 16px;
+      letter-spacing: 0.14em;
+      margin-top: 14px;
       user-select: none;
     }
 
+    .weather-display {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 12px;
+      min-height: 28px;
+    }
+
+    .weather-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: 999px;
+      padding: 5px 14px;
+      font-size: clamp(13px, 1.8vw, 17px);
+      color: var(--text-dim);
+      letter-spacing: 0.06em;
+    }
+
+    .weather-icon { font-size: 1.2em; line-height: 1; }
+    .weather-temp { font-family: 'Orbitron', monospace; font-size: 0.95em; color: var(--text); }
+
+    /* ══ DIVIDER ══ */
     .divider {
       width: 100%;
       height: 1px;
       background: linear-gradient(90deg, transparent, var(--panel-border), transparent);
-      margin: 36px 0;
+      margin: 24px 0 20px;
     }
 
+    /* ══ COUNTDOWN (compact) ══ */
     .countdown-section {
       width: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 24px;
+      gap: 10px;
     }
 
-    .section-label {
-      font-size: clamp(13px, 2vw, 17px);
-      font-weight: 400;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--text-dim);
-    }
-
-    .picker-row {
+    .cd-control-row {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
       justify-content: center;
     }
 
-    .time-input {
+    .cd-label {
+      font-size: clamp(11px, 1.5vw, 14px);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      white-space: nowrap;
+    }
+
+    .cd-input {
       background: var(--panel);
       border: 1.5px solid var(--panel-border);
-      border-radius: 12px;
+      border-radius: 8px;
       color: var(--text);
       font-family: 'Orbitron', monospace;
-      font-size: clamp(20px, 4vw, 34px);
+      font-size: clamp(14px, 2.2vw, 22px);
       font-weight: 700;
-      padding: 16px 24px;
+      padding: 8px 14px;
       text-align: center;
       outline: none;
-      width: clamp(180px, 36vw, 280px);
-      transition: border-color 0.2s, box-shadow 0.2s;
-      letter-spacing: 0.08em;
+      width: clamp(110px, 18vw, 170px);
+      letter-spacing: 0.06em;
       -webkit-appearance: none;
       appearance: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
 
-    .time-input::-webkit-calendar-picker-indicator {
-      display: none;
-    }
+    .cd-input::-webkit-calendar-picker-indicator { display: none; }
 
-    .time-input:focus {
+    .cd-input:focus {
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px var(--accent-dim), 0 0 20px var(--accent-dim);
+      box-shadow: 0 0 0 2px var(--accent-dim);
     }
 
-    .btn {
+    .cd-btn {
       border: none;
-      border-radius: 12px;
+      border-radius: 8px;
       font-family: 'Noto Sans JP', sans-serif;
-      font-size: clamp(16px, 2.5vw, 20px);
+      font-size: clamp(12px, 1.6vw, 16px);
       font-weight: 400;
-      padding: 16px 32px;
+      padding: 8px 18px;
       cursor: pointer;
       transition: all 0.15s;
       white-space: nowrap;
       -webkit-tap-highlight-color: transparent;
     }
 
-    .btn-start {
-      background: var(--accent);
-      color: #000;
-      letter-spacing: 0.05em;
-    }
+    .cd-btn-start { background: var(--accent); color: #000; }
+    .cd-btn-start:active { background: #33ddff; }
 
-    .btn-start:hover, .btn-start:active {
-      background: #33ddff;
-      transform: scale(1.02);
-    }
-
-    .btn-clear {
+    .cd-btn-clear {
       background: var(--panel);
       border: 1.5px solid var(--panel-border);
       color: var(--text-dim);
     }
+    .cd-btn-clear:active { border-color: var(--danger); color: var(--danger); }
 
-    .btn-clear:hover, .btn-clear:active {
-      border-color: var(--danger);
-      color: var(--danger);
-      background: var(--danger-dim);
-    }
-
-    .countdown-display {
+    .cd-result {
       display: none;
       flex-direction: column;
       align-items: center;
-      gap: 12px;
+      gap: 7px;
       width: 100%;
     }
+    .cd-result.active { display: flex; }
 
-    .countdown-display.active {
-      display: flex;
-    }
-
-    .countdown-target-label {
-      font-size: clamp(13px, 2vw, 16px);
+    .cd-target-label {
+      font-size: clamp(10px, 1.4vw, 13px);
       color: var(--text-dim);
-      letter-spacing: 0.15em;
+      letter-spacing: 0.14em;
     }
 
-    .countdown-time {
+    .cd-time {
       font-family: 'Orbitron', monospace;
       font-weight: 900;
-      font-size: clamp(56px, 14vw, 130px);
-      letter-spacing: 0.05em;
+      font-size: clamp(28px, 6vw, 56px);
+      letter-spacing: 0.06em;
       line-height: 1;
       color: var(--accent);
-      text-shadow:
-        0 0 20px var(--accent-glow),
-        0 0 60px var(--accent-glow);
+      text-shadow: 0 0 16px var(--accent-glow), 0 0 40px var(--accent-glow);
       user-select: none;
       transition: color 0.3s, text-shadow 0.3s;
     }
 
-    .countdown-time.warn {
+    .cd-time.warn {
       color: var(--warn);
-      text-shadow: 0 0 20px var(--warn-glow), 0 0 60px var(--warn-glow);
+      text-shadow: 0 0 16px var(--warn-glow), 0 0 40px var(--warn-glow);
     }
 
-    .countdown-time.urgent {
+    .cd-time.urgent {
       color: var(--danger);
-      text-shadow: 0 0 20px var(--danger-glow), 0 0 60px var(--danger-glow);
-      animation: urgentPulse 0.8s ease-in-out infinite;
+      text-shadow: 0 0 16px var(--danger-glow), 0 0 40px var(--danger-glow);
+      animation: pulse 0.8s ease-in-out infinite;
     }
 
-    .countdown-time.ended {
+    .cd-time.ended {
       color: var(--danger);
-      text-shadow: 0 0 20px var(--danger-glow), 0 0 60px var(--danger-glow);
-      font-size: clamp(40px, 10vw, 90px);
+      text-shadow: 0 0 16px var(--danger-glow), 0 0 40px var(--danger-glow);
+      font-size: clamp(20px, 4vw, 40px);
     }
 
-    .progress-bar-wrap {
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.55; }
+    }
+
+    .cd-progress-wrap {
       width: 100%;
-      max-width: 600px;
-      height: 6px;
+      max-width: 500px;
+      height: 4px;
       background: var(--panel);
       border-radius: 99px;
       overflow: hidden;
     }
 
-    .progress-bar {
+    .cd-progress {
       height: 100%;
       background: linear-gradient(90deg, var(--accent2), var(--accent));
       border-radius: 99px;
       transition: width 1s linear, background 0.3s;
     }
 
-    .progress-bar.warn {
-      background: linear-gradient(90deg, #cc8800, var(--warn));
-    }
-
-    .progress-bar.urgent {
-      background: linear-gradient(90deg, #cc0033, var(--danger));
-    }
+    .cd-progress.warn { background: linear-gradient(90deg, #cc8800, var(--warn)); }
+    .cd-progress.urgent { background: linear-gradient(90deg, #cc0033, var(--danger)); }
 
     @media (orientation: landscape) and (max-height: 600px) {
-      .container {
-        padding: 20px 32px;
-        gap: 0;
-      }
-      .divider { margin: 20px 0; }
-      .time-display {
-        font-size: clamp(60px, 14vh, 120px);
-      }
-      .countdown-time {
-        font-size: clamp(40px, 10vh, 90px);
-      }
+      .container { padding: 16px 32px; }
+      .time-display { font-size: clamp(44px, 10vh, 100px); }
+      .divider { margin: 14px 0 12px; }
     }
 
-    @media (min-width: 768px) and (min-height: 1000px) {
-      .container { gap: 0; padding: 60px 40px; }
-      .time-display { font-size: clamp(140px, 18vw, 200px); }
-      .divider { margin: 44px 0; }
+    @media (min-width: 768px) and (min-height: 1024px) {
+      .time-display { font-size: clamp(100px, 14vw, 164px); }
+      .container { padding: 48px 48px 36px; }
     }
   </style>
 </head>
@@ -328,32 +286,25 @@
 <div class="container">
 
   <div class="clock-section">
-    <div class="time-display" id="timeDisplay">00:00</div>
-    <div class="seconds-display" id="secondsDisplay">:00</div>
+    <div class="time-display" id="timeDisplay">00:00:00</div>
     <div class="date-display" id="dateDisplay">----年--月--日（-）</div>
+    <div class="weather-display" id="weatherDisplay"></div>
   </div>
 
   <div class="divider"></div>
 
   <div class="countdown-section">
-    <div class="section-label">カウントダウン</div>
-
-    <div class="picker-row">
-      <input
-        type="time"
-        class="time-input"
-        id="targetTimeInput"
-        placeholder="00:00"
-      >
-      <button class="btn btn-start" id="startBtn" onclick="startCountdown()">スタート</button>
-      <button class="btn btn-clear" id="clearBtn" onclick="clearCountdown()" style="display:none">クリア</button>
+    <div class="cd-control-row">
+      <span class="cd-label">カウントダウン</span>
+      <input type="time" class="cd-input" id="targetTimeInput">
+      <button class="cd-btn cd-btn-start" id="startBtn" onclick="startCountdown()">スタート</button>
+      <button class="cd-btn cd-btn-clear" id="clearBtn" onclick="clearCountdown()" style="display:none">クリア</button>
     </div>
-
-    <div class="countdown-display" id="countdownDisplay">
-      <div class="countdown-target-label" id="targetLabel"></div>
-      <div class="countdown-time" id="countdownTime">--:--:--</div>
-      <div class="progress-bar-wrap">
-        <div class="progress-bar" id="progressBar" style="width:100%"></div>
+    <div class="cd-result" id="cdResult">
+      <div class="cd-target-label" id="targetLabel"></div>
+      <div class="cd-time" id="countdownTime"></div>
+      <div class="cd-progress-wrap">
+        <div class="cd-progress" id="progressBar" style="width:100%"></div>
       </div>
     </div>
   </div>
@@ -361,69 +312,48 @@
 </div>
 
 <script>
-  const DAY_NAMES = ['日', '月', '火', '水', '木', '金', '土'];
+  const DAY_NAMES = ['日','月','火','水','木','金','土'];
 
-  let countdownTarget = null;
-  let countdownStartMs = null;
-  let countdownTotalMs = null;
+  let countdownTarget = null, countdownStartMs = null, countdownTotalMs = null;
 
-  function pad(n, len = 2) {
-    return String(n).padStart(len, '0');
-  }
+  function pad(n) { return String(n).padStart(2,'0'); }
 
-  function formatMs(ms) {
+  function formatRemaining(ms) {
     if (ms <= 0) return '時間終了';
-    const totalSec = Math.ceil(ms / 1000);
-    const h = Math.floor(totalSec / 3600);
-    const m = Math.floor((totalSec % 3600) / 60);
-    const s = totalSec % 60;
-    if (h > 0) return `${pad(h)}:${pad(m)}:${pad(s)}`;
-    return `${pad(m)}:${pad(s)}`;
+    const s = Math.ceil(ms / 1000);
+    const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sc = s % 60;
+    return h > 0 ? `${pad(h)}:${pad(m)}:${pad(sc)}` : `${pad(m)}:${pad(sc)}`;
   }
 
   function tick() {
     const now = new Date();
-    const h = now.getHours();
-    const m = now.getMinutes();
-    const s = now.getSeconds();
-
-    document.getElementById('timeDisplay').textContent = `${pad(h)}:${pad(m)}`;
-    document.getElementById('secondsDisplay').textContent = `:${pad(s)}`;
-
-    const y = now.getFullYear();
-    const mo = now.getMonth() + 1;
-    const d = now.getDate();
-    const day = DAY_NAMES[now.getDay()];
+    document.getElementById('timeDisplay').textContent =
+      `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
     document.getElementById('dateDisplay').textContent =
-      `${y}年${pad(mo)}月${pad(d)}日（${day}）`;
+      `${now.getFullYear()}年${pad(now.getMonth()+1)}月${pad(now.getDate())}日（${DAY_NAMES[now.getDay()]}）`;
 
     if (countdownTarget !== null) {
       const remaining = countdownTarget - now.getTime();
       const el = document.getElementById('countdownTime');
       const bar = document.getElementById('progressBar');
-
       if (remaining <= 0) {
         el.textContent = '時間終了！';
-        el.className = 'countdown-time ended';
+        el.className = 'cd-time ended';
         bar.style.width = '0%';
-        bar.className = 'progress-bar urgent';
+        bar.className = 'cd-progress urgent';
       } else {
-        el.textContent = formatMs(remaining);
-
-        const progress = countdownTotalMs > 0
-          ? Math.min(100, (remaining / countdownTotalMs) * 100)
-          : 100;
-        bar.style.width = `${progress}%`;
-
-        if (remaining <= 60_000) {
-          el.className = 'countdown-time urgent';
-          bar.className = 'progress-bar urgent';
-        } else if (remaining <= 300_000) {
-          el.className = 'countdown-time warn';
-          bar.className = 'progress-bar warn';
+        el.textContent = formatRemaining(remaining);
+        const pct = countdownTotalMs > 0 ? Math.min(100,(remaining/countdownTotalMs)*100) : 100;
+        bar.style.width = `${pct}%`;
+        if (remaining <= 60000) {
+          el.className = 'cd-time urgent';
+          bar.className = 'cd-progress urgent';
+        } else if (remaining <= 300000) {
+          el.className = 'cd-time warn';
+          bar.className = 'cd-progress warn';
         } else {
-          el.className = 'countdown-time';
-          bar.className = 'progress-bar';
+          el.className = 'cd-time';
+          bar.className = 'cd-progress';
         }
       }
     }
@@ -432,54 +362,76 @@
   function startCountdown() {
     const val = document.getElementById('targetTimeInput').value;
     if (!val) return;
-
     const [th, tm] = val.split(':').map(Number);
     const now = new Date();
     const target = new Date(now);
     target.setHours(th, tm, 0, 0);
-
-    if (target <= now) {
-      target.setDate(target.getDate() + 1);
-    }
-
+    if (target <= now) target.setDate(target.getDate() + 1);
     countdownTarget = target.getTime();
     countdownStartMs = now.getTime();
     countdownTotalMs = countdownTarget - countdownStartMs;
-
-    const label = `目標: ${pad(th)}:${pad(tm)}`;
-    document.getElementById('targetLabel').textContent = label;
-
-    document.getElementById('countdownDisplay').classList.add('active');
+    document.getElementById('targetLabel').textContent = `目標: ${pad(th)}:${pad(tm)}`;
+    document.getElementById('cdResult').classList.add('active');
     document.getElementById('clearBtn').style.display = '';
     document.getElementById('startBtn').textContent = '変更';
-
     tick();
   }
 
   function clearCountdown() {
-    countdownTarget = null;
-    countdownStartMs = null;
-    countdownTotalMs = null;
-    document.getElementById('countdownDisplay').classList.remove('active');
+    countdownTarget = countdownStartMs = countdownTotalMs = null;
+    document.getElementById('cdResult').classList.remove('active');
     document.getElementById('clearBtn').style.display = 'none';
     document.getElementById('startBtn').textContent = 'スタート';
     document.getElementById('targetTimeInput').value = '';
-    document.getElementById('countdownTime').className = 'countdown-time';
-    document.getElementById('progressBar').className = 'progress-bar';
+    document.getElementById('countdownTime').className = 'cd-time';
+    document.getElementById('progressBar').className = 'cd-progress';
     document.getElementById('progressBar').style.width = '100%';
   }
 
   tick();
   setInterval(tick, 1000);
 
+  const WMO = {
+    0:'☀️',1:'🌤️',2:'⛅',3:'☁️',
+    45:'🌫️',48:'🌫️',
+    51:'🌦️',53:'🌦️',55:'🌦️',
+    61:'🌧️',63:'🌧️',65:'🌧️',
+    71:'🌨️',73:'🌨️',75:'🌨️',77:'🌨️',
+    80:'🌦️',81:'🌦️',82:'🌦️',
+    85:'🌨️',86:'🌨️',
+    95:'⛈️',96:'⛈️',99:'⛈️'
+  };
+
+  async function loadWeather() {
+    if (!navigator.geolocation) return;
+    navigator.geolocation.getCurrentPosition(async ({ coords }) => {
+      try {
+        const { latitude: lat, longitude: lon } = coords;
+        const [meteo, geo] = await Promise.all([
+          fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&timezone=auto`).then(r => r.json()),
+          fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=ja`).then(r => r.json())
+        ]);
+        const temp = Math.round(meteo.current.temperature_2m);
+        const icon = WMO[meteo.current.weather_code] ?? '🌡️';
+        const city = geo.address?.city || geo.address?.town || geo.address?.village || geo.address?.county || '';
+        document.getElementById('weatherDisplay').innerHTML = `
+          <div class="weather-chip">
+            <span class="weather-icon">${icon}</span>
+            ${city ? `<span>${city}</span>` : ''}
+            <span class="weather-temp">${temp}°C</span>
+          </div>`;
+      } catch (_) {}
+    }, () => {}, { timeout: 8000 });
+  }
+
+  loadWeather();
+
   (async () => {
     try {
       if ('wakeLock' in navigator) {
         let lock = await navigator.wakeLock.request('screen');
         document.addEventListener('visibilitychange', async () => {
-          if (document.visibilityState === 'visible') {
-            lock = await navigator.wakeLock.request('screen');
-          }
+          if (document.visibilityState === 'visible') lock = await navigator.wakeLock.request('screen');
         });
       }
     } catch (_) {}
