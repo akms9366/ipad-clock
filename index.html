@@ -52,7 +52,6 @@
       position: relative;
     }
 
-    /* Subtle background grid */
     body::before {
       content: '';
       position: fixed;
@@ -77,7 +76,6 @@
       gap: 0;
     }
 
-    /* ── Clock section ── */
     .clock-section {
       text-align: center;
       width: 100%;
@@ -138,7 +136,6 @@
       user-select: none;
     }
 
-    /* ── Divider ── */
     .divider {
       width: 100%;
       height: 1px;
@@ -146,7 +143,6 @@
       margin: 36px 0;
     }
 
-    /* ── Countdown section ── */
     .countdown-section {
       width: 100%;
       display: flex;
@@ -163,7 +159,6 @@
       color: var(--text-dim);
     }
 
-    /* Time picker row */
     .picker-row {
       display: flex;
       align-items: center;
@@ -235,7 +230,6 @@
       background: var(--danger-dim);
     }
 
-    /* Countdown display */
     .countdown-display {
       display: none;
       flex-direction: column;
@@ -309,7 +303,6 @@
       background: linear-gradient(90deg, #cc0033, var(--danger));
     }
 
-    /* Landscape / portrait adjustments */
     @media (orientation: landscape) and (max-height: 600px) {
       .container {
         padding: 20px 32px;
@@ -324,7 +317,6 @@
       }
     }
 
-    /* iPad specific tweaks */
     @media (min-width: 768px) and (min-height: 1000px) {
       .container { gap: 0; padding: 60px 40px; }
       .time-display { font-size: clamp(140px, 18vw, 200px); }
@@ -335,7 +327,6 @@
 <body>
 <div class="container">
 
-  <!-- ── Clock ── -->
   <div class="clock-section">
     <div class="time-display" id="timeDisplay">00:00</div>
     <div class="seconds-display" id="secondsDisplay">:00</div>
@@ -344,7 +335,6 @@
 
   <div class="divider"></div>
 
-  <!-- ── Countdown ── -->
   <div class="countdown-section">
     <div class="section-label">カウントダウン</div>
 
@@ -407,7 +397,6 @@
     document.getElementById('dateDisplay').textContent =
       `${y}年${pad(mo)}月${pad(d)}日（${day}）`;
 
-    // Countdown
     if (countdownTarget !== null) {
       const remaining = countdownTarget - now.getTime();
       const el = document.getElementById('countdownTime');
@@ -480,11 +469,9 @@
     document.getElementById('progressBar').style.width = '100%';
   }
 
-  // Start ticking
   tick();
   setInterval(tick, 1000);
 
-  // Keep screen on when possible (Wake Lock API)
   (async () => {
     try {
       if ('wakeLock' in navigator) {
