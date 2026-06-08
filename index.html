@@ -418,9 +418,6 @@
         el.className = 'countdown-time ended';
         bar.style.width = '0%';
         bar.className = 'progress-bar urgent';
-        if (remaining > -1500) {
-          triggerFinished();
-        }
       } else {
         el.textContent = formatMs(remaining);
 
@@ -441,25 +438,6 @@
         }
       }
     }
-  }
-
-  function triggerFinished() {
-    if ('vibrate' in navigator) navigator.vibrate([300, 100, 300]);
-    try {
-      const ctx = new (window.AudioContext || window.webkitAudioContext)();
-      [440, 550, 660].forEach((freq, i) => {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.frequency.value = freq;
-        osc.type = 'sine';
-        gain.gain.setValueAtTime(0.3, ctx.currentTime + i * 0.18);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.18 + 0.4);
-        osc.start(ctx.currentTime + i * 0.18);
-        osc.stop(ctx.currentTime + i * 0.18 + 0.4);
-      });
-    } catch (_) {}
   }
 
   function startCountdown() {
